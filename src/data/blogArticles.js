@@ -341,11 +341,157 @@ const articlesByCategory = {
   ],
 };
 
+const unsplash = (photoId) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=1200&q=80`;
+
+const articleImagesByTitle = {
+  // Edukasi Asuransi Jiwa
+  "Apa Itu Asuransi Jiwa dan Mengapa Penting?": unsplash(
+    "photo-1450101499163-c8848c66ca85",
+  ),
+  "Perbedaan Asuransi Jiwa Tradisional dan Unit Link": unsplash(
+    "photo-1560472354-b33ff0c44a43",
+  ),
+  "Istilah Penting dalam Polis Asuransi Jiwa": unsplash(
+    "photo-1586281380349-632531db7ed4",
+  ),
+  "Cara Menentukan Uang Pertanggungan yang Ideal": unsplash(
+    "photo-1554224155-6726b3ff858f",
+  ),
+  "Kapan Waktu Terbaik Membeli Asuransi Jiwa?": unsplash(
+    "photo-1507679799987-c73779587ccf",
+  ),
+  "Kesalahan Umum Saat Memilih Asuransi Jiwa": unsplash(
+    "photo-1551836022-d5d88e9218df",
+  ),
+
+  // Perencanaan Keuangan
+  "Mengapa Perencanaan Keuangan Sejak Dini Adalah Kunci?": unsplash(
+    "photo-1460925895917-afdab827c52f",
+  ),
+  "Cara Membuat Dana Darurat Keluarga": unsplash(
+    "photo-1554224154-26032ffc0d07",
+  ),
+  "Prioritas Keuangan untuk Pasangan Muda": unsplash(
+    "photo-1522202176988-66273c2fd55f",
+  ),
+  "Mengatur Keuangan Setelah Memiliki Anak": unsplash(
+    "photo-1511895426328-dc8714191300",
+  ),
+  "Cara Menyeimbangkan Tabungan, Investasi, dan Proteksi": unsplash(
+    "photo-1504384308090-c894fdcc538d",
+  ),
+  "Checklist Keuangan Tahunan untuk Keluarga": unsplash(
+    "photo-1454165804606-c3d57bc86b40",
+  ),
+
+  // Perlindungan Keluarga
+  "Warisan Berharga: Lebih Dari Sekadar Angka": unsplash(
+    "photo-1500530855697-b586d89ba3ee",
+  ),
+  "Melindungi Keluarga dari Risiko Kehilangan Penghasilan": unsplash(
+    "photo-1497366754035-f200968a6e72",
+  ),
+  "Rencana Perlindungan untuk Orang Tua Muda": unsplash(
+    "photo-1609220136736-443140cffec6",
+  ),
+  "Proteksi Finansial untuk Sandwich Generation": unsplash(
+    "photo-1529156069898-49953e39b3ac",
+  ),
+  "Menyiapkan Masa Depan Anak dengan Perlindungan Jiwa": unsplash(
+    "photo-1503454537195-1dcabb73ffb9",
+  ),
+  "Cara Membicarakan Asuransi dengan Keluarga": unsplash(
+    "photo-1543269865-cbf427effbad",
+  ),
+
+  // Investasi dan Warisan
+  "Mengenal Konsep Warisan Finansial yang Terencana": unsplash(
+    "photo-1521791136064-7986c2920216",
+  ),
+  "Asuransi Jiwa sebagai Bagian dari Perencanaan Warisan": unsplash(
+    "photo-1559526324-593bc073d938",
+  ),
+  "Perbedaan Menabung, Investasi, dan Proteksi": unsplash(
+    "photo-1579621970563-ebec7560ff3e",
+  ),
+  "Strategi Menjaga Aset Keluarga dalam Jangka Panjang": unsplash(
+    "photo-1565373677928-90e963765eac",
+  ),
+  "Membangun Legacy Planning untuk Generasi Berikutnya": unsplash(
+    "photo-1517245386807-bb43f82c33c4",
+  ),
+  "Mengapa Nilai Tunai Bisa Menjadi Cadangan Finansial?": unsplash(
+    "photo-1554224155-8d04cb21cd6c",
+  ),
+
+  // Tips Klaim Asuransi
+  "Panduan Lengkap Klaim Asuransi Tanpa Hambatan": unsplash(
+    "photo-1589829545856-d10d557cf95f",
+  ),
+  "Dokumen yang Perlu Disiapkan Saat Mengajukan Klaim": unsplash(
+    "photo-1586281380117-5a60ae2050cc",
+  ),
+  "Cara Melaporkan Kejadian Klaim dengan Benar": unsplash(
+    "photo-1556745757-8d76bdb6984b",
+  ),
+  "Mengapa Klaim Bisa Tertunda?": unsplash("photo-1573496359142-b8d87734a5a2"),
+  "Tips Mengisi Formulir Klaim agar Tidak Salah": unsplash(
+    "photo-1554224155-1696413565d3",
+  ),
+  "Apa yang Terjadi Setelah Klaim Diajukan?": unsplash(
+    "photo-1556742049-0cfed4f6a45d",
+  ),
+};
+
+const createSlug = (title) =>
+  title
+    .toLowerCase()
+    .replace(/&/g, "dan")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+const createDefaultContent = (article, category) => [
+  {
+    heading: "Ringkasan",
+    body: `${article.excerpt} Artikel ini membahas topik ${category.toLowerCase()} dengan pendekatan yang mudah dipahami agar pembaca dapat mengambil keputusan finansial secara lebih bijak.`,
+  },
+  {
+    heading: "Mengapa Topik Ini Penting?",
+    body: `Dalam perencanaan perlindungan finansial, memahami ${category.toLowerCase()} membantu keluarga menyiapkan strategi yang lebih matang, terukur, dan sesuai kebutuhan jangka panjang.`,
+  },
+  {
+    heading: "Hal yang Perlu Diperhatikan",
+    body: "Setiap keputusan finansial sebaiknya mempertimbangkan kondisi penghasilan, tanggungan keluarga, tujuan hidup, risiko kesehatan, serta kemampuan membayar premi secara konsisten.",
+  },
+  {
+    heading: "Langkah Berikutnya",
+    body: "Mulailah dengan mengevaluasi kebutuhan perlindungan keluarga, membaca ringkasan produk, lalu berkonsultasi dengan tenaga pemasar resmi agar pilihan produk sesuai dengan profil risiko Anda.",
+  },
+];
+
 export const articles = Object.entries(articlesByCategory).flatMap(
   ([category, items]) =>
     items.map((item) => ({
       ...item,
       category,
-      image: categoryImageMap[category],
+      slug: item.slug ?? createSlug(item.title),
+      image: articleImagesByTitle[item.title],
+      content: item.content ?? createDefaultContent(item, category),
     })),
 );
+
+export const getArticleBySlug = (slug) => {
+  return articles.find((article) => article.slug === slug);
+};
+
+export const getRelatedArticles = (currentArticle, limit = 3) => {
+  return articles
+    .filter(
+      (article) =>
+        article.slug !== currentArticle.slug &&
+        article.category === currentArticle.category,
+    )
+    .slice(0, limit);
+};

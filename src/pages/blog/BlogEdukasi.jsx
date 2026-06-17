@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { categories, articles } from "../../data/blogArticles";
+import { Link } from "react-router";
 
 export default function BlogEdukasi() {
   const [activeCategory, setActiveCategory] = useState("All Topics");
@@ -135,14 +136,14 @@ export default function BlogEdukasi() {
               </div>
             )}
 
-            <div className="mt-16 text-center">
+            {/* <div className="mt-16 text-center">
               <button
                 type="button"
                 className="rounded-lg border-2 border-primary px-12 py-4 font-bold text-primary transition-all duration-300 hover:bg-primary hover:text-white"
               >
                 View All Articles
               </button>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -238,18 +239,24 @@ export default function BlogEdukasi() {
   );
 }
 
+const fallbackArticleImage =
+  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80";
+
 function ArticleCard({ article }) {
   return (
-    <article className="article-card-hover group cursor-pointer overflow-hidden rounded-xl border border-outline-variant/10 bg-surface-container-lowest shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <Link
+      to={`/blog-edukasi/${article.slug}`}
+      className="article-card-hover group block cursor-pointer overflow-hidden rounded-xl border border-outline-variant/10 bg-surface-container-lowest shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+    >
       <div className="relative h-64 overflow-hidden">
         <img
           className="article-image h-full w-full object-cover transition-transform duration-500"
-          src={article.image}
+          src={article.image || fallbackArticleImage}
           alt={article.title}
         />
 
         <div className="absolute top-4 left-4">
-          <span className="text-label-sm rounded bg-secondary px-3 py-1 font-bold text-on-secondary-container shadow-md">
+          <span className="text-label-sm rounded bg-secondary px-3 py-1 font-boldshadow-md text-white">
             {article.category}
           </span>
         </div>
@@ -292,6 +299,6 @@ function ArticleCard({ article }) {
           </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

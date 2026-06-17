@@ -8,6 +8,7 @@ import DaftarAsuransi from "./pages/products/DaftarAsuransi";
 import ClaimAsuransi from "./pages/products/ClaimAsuransi";
 import Testimonials from "./pages/claims/Testimonials";
 import BlogEdukasi from "./pages/blog/BlogEdukasi";
+import BlogArticleDetail from "./pages/blog/BlogArticleDetail";
 
 function PlaceholderPage({ title }) {
   return (
@@ -42,6 +43,7 @@ export default function App() {
 
       <Route path="/claims" element={<Testimonials />} />
       <Route path="/blog-edukasi" element={<BlogEdukasi />} />
+      <Route path="/blog-edukasi/:slug" element={<BlogArticleDetail />} />
     </Routes>
   );
 }
