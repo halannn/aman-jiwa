@@ -163,7 +163,7 @@ export default function ClaimAsuransi() {
                   Buka Google Form
                 </a>
 
-                <a
+                {/* <a
                   href="mailto:claims@amanjiwa.co.id"
                   className="flex items-center gap-2 text-on-primary-container underline underline-offset-4 hover:text-white"
                 >
@@ -171,7 +171,7 @@ export default function ClaimAsuransi() {
                     support_agent
                   </span>
                   Hubungi Customer Service
-                </a>
+                </a> */}
               </div>
             </div>
 
@@ -500,7 +500,7 @@ export default function ClaimAsuransi() {
                   {activeDocument.note}
                 </p>
 
-                <a
+                {/* <a
                   href="#"
                   className="inline-flex items-center gap-2 font-bold text-primary underline"
                 >
@@ -508,7 +508,7 @@ export default function ClaimAsuransi() {
                   <span className="material-symbols-outlined text-sm">
                     download
                   </span>
-                </a>
+                </a> */}
               </div>
             </div>
           </div>

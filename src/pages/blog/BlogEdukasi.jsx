@@ -39,9 +39,9 @@ export default function BlogEdukasi() {
               </h1>
 
               <p className="font-body-lg text-body-lg mb-8 text-on-primary-container/90">
-                Empowering you with the knowledge to make informed financial
-                decisions. Explore our deep dives into life insurance, wealth
-                management, and legacy planning.
+                Memberdayakan Anda dengan pengetahuan untuk membuat keputusan
+                keuangan yang tepat. Jelajahi pembahasan mendalam kami tentang
+                asuransi jiwa, pengelolaan kekayaan, dan perencanaan warisan.
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -217,7 +217,7 @@ export default function BlogEdukasi() {
                   </p>
                 </div>
 
-                <button
+                {/* <button
                   type="button"
                   className="relative z-10 mt-10 flex w-fit items-center gap-2 font-bold text-secondary transition-all hover:gap-4"
                 >
@@ -225,7 +225,7 @@ export default function BlogEdukasi() {
                   <span className="material-symbols-outlined">
                     arrow_right_alt
                   </span>
-                </button>
+                </button> */}
 
                 <div className="absolute -right-10 -bottom-10 h-64 w-64 rounded-full bg-secondary/10 blur-3xl" />
               </div>

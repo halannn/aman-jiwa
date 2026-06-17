@@ -272,7 +272,7 @@ export default function Profile() {
           </div>
         </section>
 
-        <section className="profile-reveal mx-auto mb-20 max-w-container-max px-margin-mobile py-24 md:px-margin-desktop">
+        {/* <section className="profile-reveal mx-auto mb-20 max-w-container-max px-margin-mobile py-24 md:px-margin-desktop">
           <div className="hero-gradient relative overflow-hidden rounded-xl p-16 text-center">
             <div className="pointer-events-none absolute inset-0 opacity-10">
               <div
@@ -305,7 +305,7 @@ export default function Profile() {
               </button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <Footer />

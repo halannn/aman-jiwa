@@ -119,7 +119,7 @@ export default function DaftarAsuransi() {
     <div className="bg-background text-on-surface font-body-md overflow-x-hidden">
       <Navbar />
 
-      <a
+      {/* <a
         href="https://wa.me/#"
         target="_blank"
         rel="noreferrer"
@@ -127,7 +127,7 @@ export default function DaftarAsuransi() {
       >
         <span className="material-symbols-outlined">chat</span>
         <span>Hubungi Konsultan Asuransi</span>
-      </a>
+      </a> */}
 
       <main className="pt-20">
         <section className="relative flex min-h-[700px] items-center overflow-hidden bg-primary-container">
@@ -180,7 +180,7 @@ export default function DaftarAsuransi() {
                   Hitung Premi
                 </a>
 
-                <a
+                {/* <a
                   href="#digital-document-center"
                   className="flex items-center gap-2 font-bold text-surface-bright hover:underline"
                 >
@@ -188,7 +188,7 @@ export default function DaftarAsuransi() {
                   <span className="material-symbols-outlined">
                     arrow_forward
                   </span>
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function DaftarAsuransi() {
                       </span>
                       Lihat Dokumen
                     </a>
-
+{/* 
                     <a
                       href={driveUrl}
                       target="_blank"
@@ -248,7 +248,7 @@ export default function DaftarAsuransi() {
                         download
                       </span>
                       Download PDF
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               </div>

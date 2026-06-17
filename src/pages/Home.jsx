@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { heroImageUrl, logoUrl, posterImageUrl } from "../constants/assets";
@@ -107,16 +108,45 @@ const benefits = [
 ];
 
 const faqs = [
-  "Apa itu AJ Lifelong Assurance?",
-  "Kapan polis aktif?",
-  "Berapa masa leluasa pembayaran premi?",
-  "Apakah tersedia Free Look Period?",
-  "Kapan nilai tunai mulai terbentuk?",
-  "Bagaimana cara mengajukan klaim?",
-  "Apa saja pengecualian polis?",
+  {
+    question: "Apa itu AJ Lifelong Assurance?",
+    answer:
+      "AJ Lifelong Assurance adalah produk asuransi jiwa seumur hidup yang memberikan perlindungan hingga usia 99 tahun, dengan manfaat meninggal dunia, kecelakaan, cacat tetap total, dan nilai tunai sesuai ketentuan polis.",
+  },
+  {
+    question: "Kapan polis aktif?",
+    answer:
+      "Polis akan aktif setelah pengajuan disetujui, premi pertama dibayarkan, dan proses penerbitan polis selesai. Detail tanggal mulai perlindungan akan tercantum pada dokumen polis.",
+  },
+  {
+    question: "Berapa masa leluasa pembayaran premi?",
+    answer:
+      "Masa leluasa pembayaran premi adalah periode tambahan yang diberikan setelah tanggal jatuh tempo. Selama masa ini, nasabah masih dapat melakukan pembayaran premi agar polis tetap berlaku sesuai ketentuan.",
+  },
+  {
+    question: "Apakah tersedia Free Look Period?",
+    answer:
+      "Ya, tersedia Free Look Period sesuai ketentuan polis. Pada periode ini, pemegang polis dapat mempelajari isi polis dan mengajukan pembatalan apabila tidak setuju dengan ketentuan yang berlaku.",
+  },
+  {
+    question: "Kapan nilai tunai mulai terbentuk?",
+    answer:
+      "Nilai tunai mulai terbentuk sesuai ketentuan produk dan masa kepesertaan. Pada umumnya, nilai tunai akan mulai tersedia setelah polis berjalan beberapa tahun dan premi dibayarkan secara konsisten.",
+  },
+  {
+    question: "Bagaimana cara mengajukan klaim?",
+    answer:
+      "Klaim dapat diajukan melalui halaman Claim Asuransi dengan mengisi formulir klaim digital, melengkapi data polis, memilih jenis klaim, mengisi kronologi kejadian, dan mengunggah dokumen pendukung.",
+  },
+  {
+    question: "Apa saja pengecualian polis?",
+    answer:
+      "Pengecualian polis adalah kondisi tertentu yang tidak dijamin oleh perusahaan asuransi. Contohnya dapat mencakup ketidaksesuaian data, pelanggaran hukum, atau kondisi lain yang tercantum secara resmi pada dokumen polis.",
+  },
 ];
 
 export default function Home() {
+  const [activeFaqIndex, setActiveFaqIndex] = useState(null);
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -228,19 +258,27 @@ export default function Home() {
               tahun dengan manfaat meninggal dunia, kecelakaan, cacat tetap
               total, dan nilai tunai yang terus berkembang.
             </p>
-
             <div className="flex flex-wrap gap-4">
-              <button className="rounded-xl bg-primary px-8 py-4 font-bold text-on-primary shadow-lg transition-all hover:translate-y-[-2px]">
+              <Link
+                to="/products/daftar-asuransi#registration"
+                className="rounded-xl bg-primary px-8 py-4 font-bold text-on-primary shadow-lg transition-all hover:translate-y-[-2px]"
+              >
                 Ajukan Sekarang
-              </button>
+              </Link>
 
-              <button className="rounded-xl bg-secondary-fixed px-8 py-4 font-bold text-on-secondary-fixed shadow-md transition-all hover:bg-secondary-fixed-dim">
+              <Link
+                to="/products/daftar-asuransi#calculator"
+                className="rounded-xl bg-secondary-fixed px-8 py-4 font-bold text-on-secondary-fixed shadow-md transition-all hover:bg-secondary-fixed-dim"
+              >
                 Hitung Premi
-              </button>
-
-              <button className="rounded-xl border-2 border-primary px-8 py-4 font-bold text-primary transition-all hover:bg-primary/5">
-                Konsultasi Gratis
-              </button>
+              </Link>
+              {/*
+              <Link
+                to="/products/solusi-asuransi"
+                className="rounded-xl border-2 border-primary px-8 py-4 font-bold text-primary transition-all hover:bg-primary/5"
+              >
+                Lihat Produk
+              </Link> */}
             </div>
           </div>
 
@@ -265,10 +303,7 @@ export default function Home() {
         <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
           <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4 md:gap-gutter">
             {stats.map((stat) => (
-              <div
-                key={stat.id}
-                style={{ transitionDelay: stat.delay }}
-              >
+              <div key={stat.id} style={{ transitionDelay: stat.delay }}>
                 <div
                   id={stat.id}
                   className="mb-1 text-[32px] font-extrabold md:text-[48px]"
@@ -291,7 +326,7 @@ export default function Home() {
             <div className="reveal order-2 lg:order-1 lg:col-span-7">
               <div className="overflow-hidden rounded-3xl border-8 border-white shadow-2xl">
                 <img
-                  src={posterImageUrl}
+                  src="src/assets/poster.jpeg.png"
                   alt="Product Poster AJ Lifelong Assurance"
                   className="h-auto w-full"
                 />
@@ -451,23 +486,51 @@ export default function Home() {
 
             <div className="mx-auto h-1 w-24 bg-secondary" />
           </div>
-
           <div className="mx-auto max-w-3xl space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={faq}
-                className="reveal overflow-hidden rounded-2xl border border-outline-variant/30 bg-white shadow-sm"
-                style={{ transitionDelay: `${index * 50}ms` }}
-              >
-                <div className="flex cursor-pointer items-center justify-between p-6 transition-colors hover:bg-primary/5">
-                  <h3 className="font-bold text-primary">{faq}</h3>
+            {faqs.map((faq, index) => {
+              const isOpen = activeFaqIndex === index;
 
-                  <span className="material-symbols-outlined text-secondary">
-                    expand_more
-                  </span>
+              return (
+                <div
+                  key={faq.question}
+                  className="reveal overflow-hidden rounded-2xl border border-outline-variant/30 bg-white shadow-sm"
+                  style={{ transitionDelay: `${index * 50}ms` }}
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveFaqIndex((currentIndex) =>
+                        currentIndex === index ? null : index,
+                      )
+                    }
+                    className="flex w-full cursor-pointer items-center justify-between gap-6 p-6 text-left transition-colors hover:bg-primary/5"
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="font-bold text-primary">{faq.question}</h3>
+
+                    <span
+                      className={`material-symbols-outlined flex-shrink-0 text-secondary transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      expand_more
+                    </span>
+                  </button>
+
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-6 pb-6 leading-relaxed text-on-surface-variant">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

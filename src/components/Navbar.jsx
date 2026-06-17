@@ -4,7 +4,7 @@ import { logoUrl } from "../constants/assets";
 
 const productItems = [
   {
-    label: "Solusi Asuransi",
+    label: "Produk Asuransi",
     to: "/products/solusi-asuransi",
   },
   {
@@ -109,14 +109,14 @@ export default function Navbar() {
           </NavLink>
         </div>
 
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <button
             type="button"
             className="rounded bg-primary px-6 py-2.5 font-bold text-on-primary shadow-sm transition-all hover:bg-primary-container active:opacity-80"
           >
             Konsultasi Gratis
           </button>
-        </div>
+        </div> */}
 
         <button
           type="button"

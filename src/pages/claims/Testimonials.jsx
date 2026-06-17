@@ -420,7 +420,7 @@ export default function Testimonials() {
                 </a>
               </div>
 
-              <a
+              {/* <a
                 href="mailto:customer@amanjiwa.co.id"
                 className="group mt-12 flex cursor-pointer items-center justify-center gap-3 text-white/80 transition-colors hover:text-secondary"
               >
@@ -431,7 +431,7 @@ export default function Testimonials() {
                 <span className="font-label-sm border-b border-transparent uppercase tracking-widest group-hover:border-secondary">
                   Konsultasi Gratis Dengan Ahli Kami
                 </span>
-              </a>
+              </a> */}
             </div>
           </div>
         </section>
