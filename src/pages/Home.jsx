@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { heroImageUrl, logoUrl, posterImageUrl } from "../constants/assets";
+import posterImage from "../assets/poster.jpeg.png";
 
 const stats = [
   {
@@ -326,7 +327,7 @@ export default function Home() {
             <div className="reveal order-2 lg:order-1 lg:col-span-7">
               <div className="overflow-hidden rounded-3xl border-8 border-white shadow-2xl">
                 <img
-                  src="src/assets/poster.jpeg.png"
+                  src={posterImage}
                   alt="Product Poster AJ Lifelong Assurance"
                   className="h-auto w-full"
                 />
