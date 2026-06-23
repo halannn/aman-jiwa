@@ -246,18 +246,19 @@ export default function Home() {
               </span>
 
               <span className="font-label-sm text-label-sm uppercase tracking-widest">
-                AJ Lifelong Assurance
+                Aman Jiwa Insurance
               </span>
             </div>
 
             <h1 className="font-display-lg mb-6 text-[42px] leading-[1.1] text-primary md:text-display-lg">
-              Perlindungan Seumur Hidup untuk Masa Depan Keluarga Anda
+              Melindungi Hari Ini, Mengamankan Masa Depan
             </h1>
 
-            <p className="font-body-lg text-body-lg mb-10 max-w-lg text-on-surface-variant">
-              AJ Lifelong Assurance memberikan perlindungan jiwa hingga usia 99
-              tahun dengan manfaat meninggal dunia, kecelakaan, cacat tetap
-              total, dan nilai tunai yang terus berkembang.
+            <p className="font-body-lg text-body-lg mb-10 max-w-lg text-justify text-on-surface-variant">
+              PT Aman Jiwa Insurance adalah perusahaan asuransi jiwa yang
+              menyediakan perlindungan finansial melalui produk AJ Lifelong
+              Assurance, dengan manfaat perlindungan jiwa seumur hidup hingga
+              usia 99 tahun sesuai ketentuan polis.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link

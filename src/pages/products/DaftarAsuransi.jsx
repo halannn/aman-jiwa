@@ -77,32 +77,87 @@ const inputClass =
 const selectClass =
   "w-full rounded-lg border border-outline-variant bg-white px-4 py-3 text-sm text-primary outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20";
 
+const basicSumAssured = 100000000;
+const ageErrorMessage = "Usia masuk yang diperbolehkan adalah 18 - 65 tahun.";
+const sumAssuredOptions = [
+  { value: 100000000, label: "Rp 100.000.000" },
+  { value: 200000000, label: "Rp 200.000.000" },
+  { value: 5000000000, label: "Rp 5.000.000.000" },
+  { value: 10000000000, label: "Rp 10.000.000.000" },
+];
+const premiumMatrix = [
+  {
+    minAge: 18,
+    maxAge: 30,
+    premiums: { Bulanan: 200000, Semesteran: 1140000, Tahunan: 2160000 },
+  },
+  {
+    minAge: 31,
+    maxAge: 40,
+    premiums: { Bulanan: 250000, Semesteran: 1425000, Tahunan: 2700000 },
+  },
+  {
+    minAge: 41,
+    maxAge: 50,
+    premiums: { Bulanan: 350000, Semesteran: 1995000, Tahunan: 3780000 },
+  },
+  {
+    minAge: 51,
+    maxAge: 60,
+    premiums: { Bulanan: 550000, Semesteran: 1135000, Tahunan: 5940000 },
+  },
+  {
+    minAge: 61,
+    maxAge: 65,
+    premiums: { Bulanan: 850000, Semesteran: 4845000, Tahunan: 9180000 },
+  },
+];
+const currencyFormatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0,
+});
+
 export default function DaftarAsuransi() {
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showCalculation, setShowCalculation] = useState(false);
+  const [hasCalculationAttempt, setHasCalculationAttempt] = useState(false);
   const [age, setAge] = useState("");
-  const [sumAssured, setSumAssured] = useState("1000000000");
+  const [sumAssured, setSumAssured] = useState(String(basicSumAssured));
   const [frequency, setFrequency] = useState("Bulanan");
+  const numericAge = Number(age);
+  const isAgeMissing = age === "";
+  const hasAgeError = age !== "" && (numericAge < 18 || numericAge > 65);
+  const showAgeError = hasAgeError || (hasCalculationAttempt && isAgeMissing);
+  const canCalculate = !isAgeMissing && !hasAgeError;
+  const selectedSumAssured = Number(sumAssured);
 
   const premium = useMemo(() => {
     const numericAge = Number(age || 30);
-    const assured = Number(sumAssured);
+    const matrixRow = premiumMatrix.find(
+      (row) => numericAge >= row.minAge && numericAge <= row.maxAge,
+    );
 
-    const basePremium = assured / 2500;
-    const ageAdjustment = Math.max(numericAge - 25, 0) * 12000;
-    const monthlyPremium = Math.round(basePremium + ageAdjustment);
-
-    if (frequency === "Tahunan") {
-      return Math.round(monthlyPremium * 12 * 0.95);
+    if (!matrixRow) {
+      return 0;
     }
 
-    return monthlyPremium;
-  }, [age, sumAssured, frequency]);
+    return Math.round(
+      matrixRow.premiums[frequency] * (selectedSumAssured / basicSumAssured),
+    );
+  }, [age, frequency, selectedSumAssured]);
 
-  const formattedPremium = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(premium);
+  const formattedPremium = currencyFormatter.format(premium);
+  const formattedSumAssured = currencyFormatter.format(selectedSumAssured);
+  const formattedAccidentBenefit = currencyFormatter.format(
+    selectedSumAssured * 2,
+  );
+
+  const premiumPeriodLabel = {
+    Bulanan: "bulan",
+    Semesteran: "semester",
+    Tahunan: "tahun",
+  }[frequency];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -113,6 +168,17 @@ export default function DaftarAsuransi() {
         .getElementById("success-state")
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
+  };
+
+  const handleCalculate = () => {
+    setHasCalculationAttempt(true);
+
+    if (!canCalculate) {
+      setShowCalculation(false);
+      return;
+    }
+
+    setShowCalculation(true);
   };
 
   return (
@@ -378,83 +444,173 @@ export default function DaftarAsuransi() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-start">
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-primary">
-                    Usia Tertanggung
-                  </label>
+                  <div className="flex items-center justify-between gap-3">
+                    <label
+                      className="text-sm font-bold uppercase tracking-wider text-primary"
+                      htmlFor="insured-age"
+                    >
+                      Usia Tertanggung
+                    </label>
+
+                    <span className="text-xs font-semibold text-on-surface-variant">
+                      18-65 tahun
+                    </span>
+                  </div>
 
                   <input
+                    id="insured-age"
                     value={age}
-                    onChange={(event) => setAge(event.target.value)}
-                    className={inputClass}
+                    onChange={(event) => {
+                      setAge(event.target.value);
+                      setShowCalculation(false);
+                    }}
+                    className={`${inputClass} ${
+                      showAgeError
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                        : ""
+                    }`}
                     placeholder="Contoh: 30"
                     type="number"
+                    min="18"
+                    max="65"
+                    aria-invalid={showAgeError}
+                    aria-describedby={showAgeError ? "age-error" : undefined}
                   />
+
+                  {showAgeError && (
+                    <p
+                      id="age-error"
+                      className="rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-600"
+                    >
+                      {ageErrorMessage}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-primary">
-                    Uang Pertanggungan
+                  <label
+                    className="text-sm font-bold uppercase tracking-wider text-primary"
+                    htmlFor="basic-sum-assured"
+                  >
+                    UP Dasar
                   </label>
 
                   <select
+                    id="basic-sum-assured"
                     value={sumAssured}
-                    onChange={(event) => setSumAssured(event.target.value)}
+                    onChange={(event) => {
+                      setSumAssured(event.target.value);
+                      setShowCalculation(false);
+                    }}
                     className={selectClass}
                   >
-                    <option value="500000000">Rp 500.000.000</option>
-                    <option value="1000000000">Rp 1.000.000.000</option>
-                    <option value="2500000000">Rp 2.500.000.000</option>
+                    {sumAssuredOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
+
+                  <span className="text-xs text-on-surface-variant">
+                    Pilih nilai acuan perlindungan dasar.
+                  </span>
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-bold uppercase tracking-wider text-primary">
+                  <label
+                    className="text-sm font-bold uppercase tracking-wider text-primary"
+                    htmlFor="payment-frequency"
+                  >
                     Frekuensi Bayar
                   </label>
 
                   <select
+                    id="payment-frequency"
                     value={frequency}
-                    onChange={(event) => setFrequency(event.target.value)}
+                    onChange={(event) => {
+                      setFrequency(event.target.value);
+                      setShowCalculation(false);
+                    }}
                     className={selectClass}
                   >
                     <option>Bulanan</option>
+                    <option>Semesteran</option>
                     <option>Tahunan</option>
                   </select>
                 </div>
 
-                <div className="flex flex-col justify-end">
-                  <a
-                    href="#registration"
-                    className="w-full rounded-lg bg-primary py-3 text-center font-bold text-on-primary transition-colors hover:bg-tertiary"
+                <div className="flex flex-col justify-end lg:min-w-[220px] lg:pt-[27px]">
+                  <button
+                    className={`w-full rounded-lg px-6 py-3 text-center font-bold transition-colors ${
+                      hasAgeError
+                        ? "cursor-not-allowed bg-outline-variant text-on-surface-variant"
+                        : "bg-primary text-on-primary hover:bg-tertiary"
+                    }`}
+                    type="button"
+                    onClick={handleCalculate}
+                    disabled={hasAgeError}
                   >
-                    Lanjut Daftar
-                  </a>
+                    Hitung
+                  </button>
                 </div>
               </div>
 
-              <div className="mt-12 flex flex-col items-center justify-between gap-8 rounded-xl bg-primary-container p-8 text-surface-bright md:flex-row">
-                <div>
-                  <span className="text-sm font-bold uppercase tracking-widest text-primary-fixed-dim">
-                    Estimasi Premi Anda
-                  </span>
+              {showCalculation && (
+                <div className="mt-10 overflow-hidden rounded-xl border border-secondary/20 bg-white shadow-lg">
+                  <div className="flex flex-col gap-4 bg-primary-container p-8 text-surface-bright md:flex-row md:items-end md:justify-between">
+                    <div>
+                      <span className="text-sm font-bold uppercase tracking-widest text-primary-fixed-dim">
+                        Total Premi Terpilih
+                      </span>
 
-                  <div className="font-display-lg mt-2 text-4xl text-secondary-fixed md:text-5xl">
-                    {formattedPremium}
-                    <span className="text-xl font-normal">
-                      /{frequency === "Bulanan" ? "bulan" : "tahun"}
-                    </span>
+                      <div className="font-display-lg mt-2 text-4xl text-secondary-fixed md:text-5xl">
+                        {formattedPremium}
+                        <span className="text-xl font-normal">
+                          /{premiumPeriodLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg bg-secondary-container px-5 py-4 text-on-secondary-container">
+                      <span className="block text-xs font-bold uppercase tracking-widest">
+                        Masa Pertanggungan
+                      </span>
+
+                      <span className="mt-1 block text-lg font-bold">
+                        Sampai Usia 99 Tahun
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 p-8 md:grid-cols-2">
+                    <BenefitItem
+                      label="Santunan Meninggal Dunia (Sakit/Sebab Alami)"
+                      value={`${formattedSumAssured} (100% UP)`}
+                    />
+                    <BenefitItem
+                      label="Santunan Meninggal Dunia (Kecelakaan)"
+                      value={`${formattedAccidentBenefit} (200% UP)`}
+                    />
+                    <BenefitItem
+                      label="Manfaat Cacat Tetap Total"
+                      value={`${formattedSumAssured} (100% UP)`}
+                    />
+                    <BenefitItem
+                      label="Manfaat Akhir Masa Pertanggungan"
+                      value="100% Nilai Tunai yang terbentuk di usia 99 tahun."
+                    />
+                  </div>
+
+                  <div className="border-t border-outline-variant bg-surface-container-low px-8 py-4">
+                    <p className="text-xs leading-relaxed text-on-surface-variant">
+                      Catatan: Angka di atas merupakan simulasi awal berdasarkan
+                      dokumen Polis Aman Jiwa,
+                    </p>
                   </div>
                 </div>
-
-                <a
-                  href="#registration"
-                  className="rounded-lg bg-secondary-container px-8 py-4 text-lg font-bold text-on-secondary-container transition-transform hover:scale-105"
-                >
-                  Lanjutkan ke Pendaftaran
-                </a>
-              </div>
+              )}
             </div>
           </div>
         </section>
@@ -805,6 +961,18 @@ function ProgressSteps() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function BenefitItem({ label, value }) {
+  return (
+    <div className="rounded-lg border border-outline-variant bg-surface p-5">
+      <span className="mb-2 block text-sm font-semibold text-on-surface-variant">
+        {label}
+      </span>
+
+      <span className="block text-lg font-bold text-primary">{value}</span>
     </div>
   );
 }
