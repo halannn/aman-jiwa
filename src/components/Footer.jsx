@@ -1,6 +1,8 @@
 import { ojkImageUrl } from "../constants/assets";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer
       id="network"
@@ -82,7 +84,8 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-6 border-t border-primary/20 pt-10 md:flex-row">
           <p className="text-sm opacity-60">
-            © 2024 PT Aman Jiwa Insurance. Berizin dan Diawasi oleh OJK.
+            © {currentYear} PT Aman Jiwa Insurance. Berizin dan Diawasi oleh
+            OJK.
           </p>
 
           <img
